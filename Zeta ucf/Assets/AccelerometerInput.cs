@@ -22,7 +22,11 @@ public class AccelerometerInput : MonoBehaviour
     {
         if (toggle.GetComponent<Toggle>().isOn)
         {
-            textMesh.GetComponent<TextMeshProUGUI>().text = "Acceleration is\n" + Input.acceleration.ToString();
+            Vector3 acceleration = Input.acceleration;
+            textMesh.GetComponent<TextMeshProUGUI>().text = "Acceleration is\n\n" +
+                                                            "X = " + acceleration.x + "\n" +
+                                                            "Y = " + acceleration.y + "\n" +
+                                                            "Z = " + acceleration.z;
         }
     }
 }
