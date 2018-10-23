@@ -24,9 +24,9 @@ public class AccelerometerInput : MonoBehaviour
         {
             Vector3 acceleration = Input.acceleration;
             textMesh.GetComponent<TextMeshProUGUI>().text = "Acceleration is\n\n" +
-                                                            "X = " + acceleration.x + "\n" +
-                                                            "Y = " + acceleration.y + "\n" +
-                                                            "Z = " + acceleration.z;
+                                                            "X = " + acceleration.x.ToString("F10") + "\n" +
+                                                            "Y = " + acceleration.y.ToString("F10") + "\n" +
+                                                            "Z = " + acceleration.z.ToString("F10");
         }
     }
 }
