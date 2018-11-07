@@ -9,12 +9,13 @@ public class AccelerometerInput : MonoBehaviour
 {
 
     public GameObject textMesh;
-    public GameObject toggle;
     public GameObject collect_button;
     public GameObject analyze_button;
     public static List<Vector3> raw_data;
     public double[] total_Acc;
     public double[] y_fft;
+
+    public bool collect;
 
     // Use this for initialization
     void Start()
@@ -23,14 +24,14 @@ public class AccelerometerInput : MonoBehaviour
 
         collect_button = GameObject.Find("CollectButton");
         analyze_button = GameObject.Find("AnalyzeButton");
-        analyze_button.GetComponent<Button>().enabled = false;
+        analyze_button.GetComponent<Button>().interactable = false;
         raw_data = new List<Vector3>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (collect_button.GetComponent<Button>().GetComponentInChildren<Text>().text.Equals("Stop"))
+        if (collect)
         {
             Vector3 acceleration = Input.acceleration;
             raw_data.Add(acceleration);
@@ -38,17 +39,6 @@ public class AccelerometerInput : MonoBehaviour
                                                             "X = " + acceleration.x.ToString("F10") + "\n" +
                                                             "Y = " + acceleration.y.ToString("F10") + "\n" +
                                                             "Z = " + acceleration.z.ToString("F10");
-        }
-        if (collect_button.GetComponent<Button>().GetComponentInChildren<Text>().text.Equals("Finished"))
-        {
-            collect_button.GetComponent<Button>().enabled = false;
-            analyze_button.GetComponent<Button>().enabled = true;
-        }
-
-        if (analyze_button.GetComponent<Button>().GetComponentInChildren<Text>().text.Equals("Analyzing"))
-        {
-            analyze_button.GetComponent<Button>().enabled = false;
-            AnalyzeData();
         }
     }
 
@@ -83,5 +73,33 @@ public class AccelerometerInput : MonoBehaviour
         //run the fft
         fft2.run(total_Acc, y_fft);
 
+    }
+
+    public void Collect()
+    {
+        print("AccelerometerInput.Collect()");
+        if (!collect)
+        {
+            print("\tStart");
+            collect_button.GetComponentInChildren<Text>().text = "Stop";
+            collect = true;
+        }
+        else if (collect)
+        {
+            print("\tStop");
+            //collect_button.GetComponentInChildren<Text>().text = "Finished";
+            collect_button.GetComponent<Button>().interactable = false;
+            analyze_button.GetComponent<Button>().interactable = true;
+            collect = true;
+        }
+    }
+
+    public void Analyze()
+    {
+        print("AccelerometerInput.Analyze()");
+        collect = false;
+        //analyze_button.GetComponentInChildren<Text>().text = "Analyzing";
+        analyze_button.GetComponent<Button>().interactable = false;
+        AnalyzeData();
     }
 }
