@@ -91,7 +91,7 @@ public class AccelerometerInput : MonoBehaviour
             //collect_button.GetComponentInChildren<Text>().text = "Finished";
             collect_button.GetComponent<Button>().interactable = false;
             analyze_button.GetComponent<Button>().interactable = true;
-            collect = true;
+            collect = false;
         }
     }
 
