@@ -50,8 +50,6 @@ public class AccelerometerInput : MonoBehaviour
             analyze_button.GetComponent<Button>().enabled = false;
             AnalyzeData();
         }
-
-
     }
 
     public void AnalyzeData()
@@ -85,12 +83,5 @@ public class AccelerometerInput : MonoBehaviour
         //run the fft
         fft2.run(total_Acc, y_fft);
 
-
-        
-
-
     }
-
-
 }
-
