@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class AccelerometerInput : MonoBehaviour
 {
@@ -101,5 +102,10 @@ public class AccelerometerInput : MonoBehaviour
         //analyze_button.GetComponentInChildren<Text>().text = "Analyzing";
         analyze_button.GetComponent<Button>().interactable = false;
         AnalyzeData();
+    }
+
+    public void Reload()
+    {
+        SceneManager.LoadScene(0);
     }
 }
