@@ -46,13 +46,14 @@ public class AccelerometerInput : MonoBehaviour
     public void AnalyzeData()
     {
 
+        print("AnalyzeData");
         total_Acc = new double[raw_data.Count];
         textMesh.GetComponent<TextMeshProUGUI>().text = "Calculating total acceleration on " + raw_data.Count.ToString() + " values";
         for (int i = 0; i < raw_data.Count; i++)
         {
             //calculate total acceleration of the 3 axis
             total_Acc[i] = Mathf.Sqrt(Mathf.Pow((raw_data.ElementAt(i).x), 2) + Mathf.Pow((raw_data.ElementAt(i).y), 2) + Mathf.Pow((raw_data.ElementAt(i).z), 2));
-
+            print("\t" + total_Acc[i]);
         }
 
         FFT2 fft2 = new FFT2();
