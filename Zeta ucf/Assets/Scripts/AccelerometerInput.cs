@@ -18,6 +18,9 @@ public class AccelerometerInput : MonoBehaviour
 
     public bool collect;
 
+    public GameObject panelCollect;
+    public GameObject panelAnalyze;
+
     // Use this for initialization
     void Start()
     {
@@ -27,6 +30,10 @@ public class AccelerometerInput : MonoBehaviour
         analyze_button = GameObject.Find("AnalyzeButton");
         analyze_button.GetComponent<Button>().interactable = false;
         raw_data = new List<Vector3>();
+
+        panelCollect = GameObject.Find("Panel Collect");
+        panelAnalyze = GameObject.Find("Panel Analyze");
+        //panelAnalyze.SetActive(false);
     }
 
     // Update is called once per frame
@@ -75,6 +82,7 @@ public class AccelerometerInput : MonoBehaviour
         //run the fft
         fft2.run(total_Acc, y_fft);
 
+        StartCoroutine(ShowResult());
     }
 
     public void Collect()
@@ -113,5 +121,12 @@ public class AccelerometerInput : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public IEnumerator ShowResult()
+    {
+        panelCollect.SetActive(false);
+        panelAnalyze.SetActive(true);
+        yield return null;
     }
 }
