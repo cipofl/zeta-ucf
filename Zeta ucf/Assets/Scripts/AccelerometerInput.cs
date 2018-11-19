@@ -18,6 +18,13 @@ public class AccelerometerInput : MonoBehaviour
 
     public bool collect;
 
+    public GameObject panelCollect;
+    public GameObject panelAnalyze;
+    public GameObject imageAcc;
+    public GameObject content;
+
+    public float threshold;
+
     // Use this for initialization
     void Start()
     {
@@ -27,10 +34,16 @@ public class AccelerometerInput : MonoBehaviour
         analyze_button = GameObject.Find("AnalyzeButton");
         analyze_button.GetComponent<Button>().interactable = false;
         raw_data = new List<Vector3>();
+
+        panelCollect = GameObject.Find("Panel Collect");
+        panelAnalyze = GameObject.Find("Panel Analyze");
+        imageAcc = GameObject.Find("Image Acc");
+        content = GameObject.Find("Content");
+
+        panelAnalyze.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (collect)
         {
@@ -46,13 +59,14 @@ public class AccelerometerInput : MonoBehaviour
     public void AnalyzeData()
     {
 
+        print("AnalyzeData");
         total_Acc = new double[raw_data.Count];
         textMesh.GetComponent<TextMeshProUGUI>().text = "Calculating total acceleration on " + raw_data.Count.ToString() + " values";
         for (int i = 0; i < raw_data.Count; i++)
         {
             //calculate total acceleration of the 3 axis
             total_Acc[i] = Mathf.Sqrt(Mathf.Pow((raw_data.ElementAt(i).x), 2) + Mathf.Pow((raw_data.ElementAt(i).y), 2) + Mathf.Pow((raw_data.ElementAt(i).z), 2));
-
+            print("\t" + total_Acc[i]);
         }
 
         FFT2 fft2 = new FFT2();
@@ -74,6 +88,7 @@ public class AccelerometerInput : MonoBehaviour
         //run the fft
         fft2.run(total_Acc, y_fft);
 
+        StartCoroutine(ShowResult());
     }
 
     public void Collect()
@@ -112,5 +127,33 @@ public class AccelerometerInput : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public IEnumerator ShowResult()
+    {
+        panelCollect.SetActive(false);
+        panelAnalyze.SetActive(true);
+
+        foreach (double acc in total_Acc)
+        {
+            Instantiate(imageAcc, imageAcc.transform.parent);
+        }
+        yield return null;
+
+        content.GetComponent<ContentSizeFitter>().enabled = false;
+        yield return null;
+        content.GetComponent<HorizontalLayoutGroup>().enabled = false;
+        yield return null;
+
+        for (int i = 0; i < total_Acc.Length; i++)
+        {
+            Transform child = content.transform.GetChild(i);
+            child.localPosition = new Vector3(child.localPosition.x, (float)total_Acc[i], 0);
+
+            if (total_Acc[i] > threshold)
+            {
+                child.GetComponent<Image>().color = Color.red;
+            }
+        }
     }
 }
