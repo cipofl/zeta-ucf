@@ -20,6 +20,8 @@ public class AccelerometerInput : MonoBehaviour
 
     public GameObject panelCollect;
     public GameObject panelAnalyze;
+    public GameObject imageAcc;
+    public GameObject content;
 
     // Use this for initialization
     void Start()
@@ -33,7 +35,10 @@ public class AccelerometerInput : MonoBehaviour
 
         panelCollect = GameObject.Find("Panel Collect");
         panelAnalyze = GameObject.Find("Panel Analyze");
-        //panelAnalyze.SetActive(false);
+        imageAcc = GameObject.Find("Image Acc");
+        content = GameObject.Find("Content");
+
+        panelAnalyze.SetActive(false);
     }
 
     // Update is called once per frame
@@ -127,6 +132,22 @@ public class AccelerometerInput : MonoBehaviour
     {
         panelCollect.SetActive(false);
         panelAnalyze.SetActive(true);
+
+        foreach (double acc in total_Acc)
+        {
+            Instantiate(imageAcc, imageAcc.transform.parent);
+        }
         yield return null;
+
+        content.GetComponent<ContentSizeFitter>().enabled = false;
+        yield return null;
+        content.GetComponent<HorizontalLayoutGroup>().enabled = false;
+        yield return null;
+
+        for (int i = 0; i < total_Acc.Length; i++)
+        {
+            Transform child = content.transform.GetChild(i);
+            child.localPosition = new Vector3(child.localPosition.x, Random.Range(-100f, 100f), 0);
+        }
     }
 }
