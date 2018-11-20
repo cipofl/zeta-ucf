@@ -91,6 +91,7 @@ public class AccelerometerInput : MonoBehaviour
         StartCoroutine(ShowResult());
     }
 
+    // Collect
     public void Collect()
     {
         print("AccelerometerInput.Collect()");
@@ -110,6 +111,7 @@ public class AccelerometerInput : MonoBehaviour
         }
     }
 
+    // Analyze
     public void Analyze()
     {
         print("AccelerometerInput.Analyze()");
@@ -119,11 +121,13 @@ public class AccelerometerInput : MonoBehaviour
         AnalyzeData();
     }
 
+    // Reload
     public void Reload()
     {
         SceneManager.LoadScene(0);
     }
 
+    // Quit
     public void Quit()
     {
         Application.Quit();
