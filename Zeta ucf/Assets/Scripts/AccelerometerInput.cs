@@ -169,13 +169,12 @@ public class AccelerometerInput : MonoBehaviour
                 child.GetComponent<Image>().color = Color.red;
             }
         }
-        yield return null;
 
         GameObject last = null;
-        Transform[] transforms = content.transform.GetComponentsInChildren<Transform>();
+        Transform[] transforms = content.GetComponentsInChildren<Transform>();
         for (int i = 1; i < transforms.Length; i++)
         {
-            if (last != null)
+            if (last)
             {
                 CreateConnection(last.GetComponent<RectTransform>().anchoredPosition, transforms[i].GetComponent<RectTransform>().anchoredPosition);
             }
