@@ -171,7 +171,6 @@ public class AccelerometerInput : MonoBehaviour
         }
         yield return null;
 
-        yield return null;
         GameObject last = null;
         Transform[] transforms = content.transform.GetComponentsInChildren<Transform>();
         for (int i = 1; i < transforms.Length; i++)
