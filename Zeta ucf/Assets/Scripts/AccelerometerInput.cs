@@ -164,18 +164,23 @@ public class AccelerometerInput : MonoBehaviour
             Transform child = content.transform.GetChild(i);
             child.localPosition = new Vector3(child.localPosition.x, (float)total_Acc[i] * 50, 0);
 
+            // First box is always at 0
+            if (i == 0)
+            {
+                child.localPosition = new Vector3(child.localPosition.x, 0, 0);
+            }
+
             if (total_Acc[i] > threshold)
             {
                 child.GetComponent<Image>().color = Color.red;
             }
         }
-        yield return null;
 
         GameObject last = null;
-        Transform[] transforms = content.transform.GetComponentsInChildren<Transform>();
+        Transform[] transforms = content.GetComponentsInChildren<Transform>();
         for (int i = 1; i < transforms.Length; i++)
         {
-            if (last != null)
+            if (last)
             {
                 CreateConnection(last.GetComponent<RectTransform>().anchoredPosition, transforms[i].GetComponent<RectTransform>().anchoredPosition);
             }
