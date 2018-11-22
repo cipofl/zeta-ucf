@@ -162,7 +162,7 @@ public class AccelerometerInput : MonoBehaviour
         for (int i = 0; i < total_Acc.Length; i++)
         {
             Transform child = content.transform.GetChild(i);
-            child.localPosition = new Vector3(child.localPosition.x, (float)total_Acc[i] * 50, 0);
+            child.localPosition = new Vector3(child.localPosition.x, Random.Range(0f, 2f) * 50, 0);
 
             if (total_Acc[i] > threshold)
             {
@@ -170,5 +170,40 @@ public class AccelerometerInput : MonoBehaviour
             }
         }
 
+        GameObject last = null;
+        Transform[] transforms = content.GetComponentsInChildren<Transform>();
+        for (int i = 1; i < transforms.Length; i++)
+        {
+            if (last)
+            {
+                CreateConnection(last.GetComponent<RectTransform>().anchoredPosition, transforms[i].GetComponent<RectTransform>().anchoredPosition);
+            }
+            last = transforms[i].gameObject;
+        }
+
+    }
+
+    private void CreateConnection(Vector2 positionA, Vector2 positionB)
+    {
+        GameObject gameObject = new GameObject("dotConnection", typeof(Image));
+        gameObject.transform.SetParent(content.transform, false);
+        gameObject.GetComponent<Image>().color = new Color(1, 1, 1, .5f);
+        RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+        Vector2 dir = (positionB - positionA).normalized;
+        float distance = Vector2.Distance(positionA, positionB);
+        rectTransform.anchorMin = new Vector2(0, 1);
+        rectTransform.anchorMax = new Vector2(0, 1);
+        rectTransform.sizeDelta = new Vector2(distance, 3f);
+        rectTransform.anchoredPosition = positionA + dir * distance * .5f;
+        rectTransform.localEulerAngles = new Vector3(0, 0, GetAngleFromVectorFloat(dir));
+    }
+
+    private static float GetAngleFromVectorFloat(Vector3 dir)
+    {
+        dir = dir.normalized;
+        float n = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        if (n < 0) n += 360;
+
+        return n;
     }
 }
