@@ -162,7 +162,7 @@ public class AccelerometerInput : MonoBehaviour
         for (int i = 0; i < total_Acc.Length; i++)
         {
             Transform child = content.transform.GetChild(i);
-            child.localPosition = new Vector3(child.localPosition.x, Random.Range(0f, 2f) * 50, 0);
+            child.localPosition = new Vector3(child.localPosition.x, (float)total_Acc[i] * 50, 0);
 
             if (total_Acc[i] > threshold)
             {
