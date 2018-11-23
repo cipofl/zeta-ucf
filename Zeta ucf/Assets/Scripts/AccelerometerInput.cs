@@ -170,6 +170,9 @@ public class AccelerometerInput : MonoBehaviour
         content.GetComponent<HorizontalLayoutGroup>().enabled = false;
         yield return null;
 
+        // Set threshold using input field
+        threshold = float.Parse(panelCollect.transform.Find("InputField").GetComponent<InputField>().text);
+
         for (int i = 0; i < total_Acc_Modified.Count; i++)
         {
             Transform child = content.transform.GetChild(i);
