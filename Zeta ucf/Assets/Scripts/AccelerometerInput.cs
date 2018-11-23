@@ -148,7 +148,18 @@ public class AccelerometerInput : MonoBehaviour
         panelCollect.SetActive(false);
         panelAnalyze.SetActive(true);
 
-        foreach (double acc in total_Acc)
+        List<double> total_Acc_Modified = new List<double>();
+        for (int i = 0; i < total_Acc.Length; i = i + 10)
+        {
+            var items = total_Acc.Skip(i).Take(10);
+            // Do something with 10 or remaining items
+            total_Acc_Modified.Add(items.Max());
+        }
+
+        print("Total acc length " + total_Acc.Length);
+        print("Total acc modified length " + total_Acc_Modified.Count);
+
+        foreach (double acc in total_Acc_Modified)
         {
             Instantiate(imageAcc, imageAcc.transform.parent);
         }
@@ -159,10 +170,10 @@ public class AccelerometerInput : MonoBehaviour
         content.GetComponent<HorizontalLayoutGroup>().enabled = false;
         yield return null;
 
-        for (int i = 0; i < total_Acc.Length; i++)
+        for (int i = 0; i < total_Acc_Modified.Count; i++)
         {
             Transform child = content.transform.GetChild(i);
-            child.localPosition = new Vector3(child.localPosition.x, (float)total_Acc[i] * 50, 0);
+            child.localPosition = new Vector3(child.localPosition.x, (float)total_Acc_Modified[i] * 50, 0);
 
             // First box is always at 0
             if (i == 0)
@@ -170,7 +181,7 @@ public class AccelerometerInput : MonoBehaviour
                 child.localPosition = new Vector3(child.localPosition.x, 0, 0);
             }
 
-            if (total_Acc[i] > threshold)
+            if (total_Acc_Modified[i] > threshold)
             {
                 child.GetComponent<Image>().color = Color.red;
             }
