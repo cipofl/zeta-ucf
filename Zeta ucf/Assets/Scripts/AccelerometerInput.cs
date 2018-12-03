@@ -121,6 +121,14 @@ public class AccelerometerInput : MonoBehaviour
     // Analyze
     public void Analyze()
     {
+
+        if (panelCollect.transform.Find("InputField").GetComponent<InputField>().text == "")
+        {
+            print("Enter threshold");
+            panelCollect.transform.Find("InputField").GetComponent<Outline>().enabled = true;
+            return;
+        }
+
         print("AccelerometerInput.Analyze()");
         collect = false;
         //analyze_button.GetComponentInChildren<Text>().text = "Analyzing";
