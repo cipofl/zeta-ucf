@@ -26,6 +26,7 @@ public class AccelerometerInput : MonoBehaviour
     public bool collect;
 
     public float threshold;
+    private int howMany;
 
     // Use this for initialization
     void Start()
@@ -121,6 +122,14 @@ public class AccelerometerInput : MonoBehaviour
     // Analyze
     public void Analyze()
     {
+
+        if (panelCollect.transform.Find("InputField").GetComponent<InputField>().text == "")
+        {
+            print("Enter threshold");
+            panelCollect.transform.Find("InputField").GetComponent<Outline>().enabled = true;
+            return;
+        }
+
         print("AccelerometerInput.Analyze()");
         collect = false;
         //analyze_button.GetComponentInChildren<Text>().text = "Analyzing";
@@ -187,6 +196,7 @@ public class AccelerometerInput : MonoBehaviour
             if (total_Acc_Modified[i] > threshold)
             {
                 child.GetComponent<Image>().color = Color.red;
+                howMany++;
             }
         }
 
@@ -200,6 +210,8 @@ public class AccelerometerInput : MonoBehaviour
             }
             last = transforms[i].gameObject;
         }
+
+        GameObject.Find("Text How Many").GetComponent<TextMeshProUGUI>().text = "Over the threshold occurrences " + howMany;
 
     }
 
