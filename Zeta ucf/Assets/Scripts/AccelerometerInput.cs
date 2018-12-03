@@ -193,7 +193,7 @@ public class AccelerometerInput : MonoBehaviour
                 child.localPosition = new Vector3(child.localPosition.x, 0, 0);
             }
 
-            if (total_Acc_Modified[i] > threshold)
+            else if (total_Acc_Modified[i] > threshold)
             {
                 child.GetComponent<Image>().color = Color.red;
                 howMany++;
