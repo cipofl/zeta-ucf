@@ -29,4 +29,9 @@ public class NewBehaviourScript : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void LoadTakeTestScene()
+    {
+        SceneManager.LoadScene("Take Test Scene");
+    }
 }
