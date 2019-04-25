@@ -48,22 +48,62 @@ public class NewBehaviourScript : MonoBehaviour
 
 
     // API Methods
-    public void GetForUser()
+
+    // Get limping tests for user
+    public IEnumerator GetForUser()
     {
         //get user id from input field
         string userId = GameObject.Find("InputField userId").GetComponent<InputField>().text;
 
         print("GetForUser()" + " " + userId);
+
+        UnityWebRequest www = UnityWebRequest.Get(getForUserEndPoint + userId);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            // Show results as text
+            Debug.Log(www.downloadHandler.text);
+
+            // Or retrieve results as binary data
+            byte[] results = www.downloadHandler.data;
+        }
+
+        //here deserialize and populate fields
     }
 
-    public void GetById()
+    // Get a limping test by given limping test id
+    public IEnumerator GetById()
     {
         string limpingTestId = GameObject.Find("InputField limpingTestId").GetComponent<InputField>().text;
 
         print("GetById()" + " " + limpingTestId);
+
+        UnityWebRequest www = UnityWebRequest.Get(getByIdEndPoint + limpingTestId);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            // Show results as text
+            Debug.Log(www.downloadHandler.text);
+
+            // Or retrieve results as binary data
+            byte[] results = www.downloadHandler.data;
+        }
+
+        //here deserialize and populate fields
     }
 
-    public void Create()
+    // Create a limping test
+    public IEnumerator Create()
     {
         string appUserId = GameObject.Find("InputField userId").GetComponent<InputField>().text;
         string testData = GameObject.Find("InputField testData").GetComponent<InputField>().text;
@@ -72,9 +112,29 @@ public class NewBehaviourScript : MonoBehaviour
         string testAnalysisLimpingSeverity = GameObject.Find("InputField testAnalysisLimpingSeverity").GetComponent<InputField>().text;
 
         print("Create()");
+
+        //here serialize
+        string postData = "";
+
+        UnityWebRequest www = UnityWebRequest.Post(createEndPoint, postData);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            // Show results as text
+            Debug.Log(www.downloadHandler.text);
+
+            // Or retrieve results as binary data
+            byte[] results = www.downloadHandler.data;
+        }
     }
 
-    public void Edit()
+    // Edit a limping test by given limping test id
+    public IEnumerator Edit()
     {
         string limpingTestId = GameObject.Find("InputField limpingTestId").GetComponent<InputField>().text;
         string testData = GameObject.Find("InputField testData").GetComponent<InputField>().text;
@@ -83,18 +143,35 @@ public class NewBehaviourScript : MonoBehaviour
         string testAnalysisLimpingSeverity = GameObject.Find("InputField testAnalysisLimpingSeverity").GetComponent<InputField>().text;
 
         print("Edit()" + " " + limpingTestId);
+
+        //here serialize
+        string bodyData = "";
+
+        UnityWebRequest www = UnityWebRequest.Put(editEndPoint, bodyData);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            // Show results as text
+            Debug.Log(www.downloadHandler.text);
+
+            // Or retrieve results as binary data
+            byte[] results = www.downloadHandler.data;
+        }
     }
 
-    public void Delete()
+    // Delete a limping test by given limping test id
+    public IEnumerator Delete()
     {
         string limpingTestId = GameObject.Find("InputField limpingTestId").GetComponent<InputField>().text;
 
         print("Delete()" + " " + limpingTestId);
-    }
 
-    IEnumerator GetText(string resource)
-    {
-        UnityWebRequest www = UnityWebRequest.Get(resource);
+        UnityWebRequest www = UnityWebRequest.Delete(deleteEndPoint + limpingTestId);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
