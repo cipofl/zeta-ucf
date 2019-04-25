@@ -2494,6 +2494,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 1413899301}
   panel2: {fileID: 11307487}
+  getForUserEndPoint: http://localhost:5000/api/Users/GetForUser/
+  getByIdEndPoint: /api/LimpingTests/GetById/
+  createEndPoint: /api/LimpingTests/Create
+  editEndPoint: /api/LimpingTests/Edit/
+  deleteEndPoint: /api/LimpingTests/Delete/
 --- !u!1 &1020722235
 GameObject:
   m_ObjectHideFlags: 0
