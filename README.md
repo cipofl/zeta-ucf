@@ -1,8 +1,13 @@
 # zeta-ucf
 
-To test in Unity, download and install Unity at https://store.unity.com/. 
+To test in Unity: 
+1. Download and install Unity at https://store.unity.com/
+2. Make sure 'pwpapi' branch is active branch
+3. Go to zeta-ucf\Zeta ucf\Assets\Scenes and open Start Scene.unity
+4. Click 'Play' button at the top
 
-Make sure 'pwpapi' branch is active branch.
-
-From https://github.com/flciprian/zeta-ucf/releases, Android (the targeted platform for this app), and Web (for easy testing) are provided.
+To test ready-made builds:
+1. Go to https://github.com/flciprian/zeta-ucf/releases
+2. Download the Android build (the targeted platform for this app) or the Web build (for easy testing)
+3. Install and run 
 
