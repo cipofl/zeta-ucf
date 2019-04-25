@@ -1,7 +1,7 @@
 # zeta-ucf
 
 To test in Unity: 
-1. Download and install Unity at https://store.unity.com/
+1. Download and install Unity from https://store.unity.com/
 2. Make sure 'pwpapi' branch is active branch
 3. Go to zeta-ucf\Zeta ucf\Assets\Scenes and open Start Scene.unity
 4. Click 'Play' button at the top
