@@ -50,35 +50,46 @@ public class NewBehaviourScript : MonoBehaviour
     // API Methods
     public void GetForUser()
     {
-        GameObject inputField = GameObject.Find("InputField userId");
-        string userId = inputField.GetComponent<InputField>().text;
-        print("GetForUser()" + " " + userId);
+        //get user id from input field
+        string userId = GameObject.Find("InputField userId").GetComponent<InputField>().text;
 
-        StartCoroutine(GetText(getForUserEndPoint + userId));
+        print("GetForUser()" + " " + userId);
     }
 
     public void GetById()
     {
-        GameObject inputField = GameObject.Find("InputField limpingTestId");
-        string limpingTestId = inputField.GetComponent<InputField>().text;
-        print("GetById()" + " " + limpingTestId);
+        string limpingTestId = GameObject.Find("InputField limpingTestId").GetComponent<InputField>().text;
 
-        StartCoroutine(GetText(getByIdEndPoint + limpingTestId));
+        print("GetById()" + " " + limpingTestId);
     }
 
     public void Create()
     {
+        string appUserId = GameObject.Find("InputField userId").GetComponent<InputField>().text;
+        string testData = GameObject.Find("InputField testData").GetComponent<InputField>().text;
+        string testAnalysisEndValue = GameObject.Find("InputField testData").GetComponent<InputField>().text;
+        string testAnalysisDescription = GameObject.Find("InputField testAnalysisDescription").GetComponent<InputField>().text;
+        string testAnalysisLimpingSeverity = GameObject.Find("InputField testAnalysisLimpingSeverity").GetComponent<InputField>().text;
+
         print("Create()");
     }
 
     public void Edit()
     {
-        print("Edit()");
+        string limpingTestId = GameObject.Find("InputField limpingTestId").GetComponent<InputField>().text;
+        string testData = GameObject.Find("InputField testData").GetComponent<InputField>().text;
+        string testAnalysisEndValue = GameObject.Find("InputField testData").GetComponent<InputField>().text;
+        string testAnalysisDescription = GameObject.Find("InputField testAnalysisDescription").GetComponent<InputField>().text;
+        string testAnalysisLimpingSeverity = GameObject.Find("InputField testAnalysisLimpingSeverity").GetComponent<InputField>().text;
+
+        print("Edit()" + " " + limpingTestId);
     }
 
     public void Delete()
     {
-        print("Delete()");
+        string limpingTestId = GameObject.Find("InputField limpingTestId").GetComponent<InputField>().text;
+
+        print("Delete()" + " " + limpingTestId);
     }
 
     IEnumerator GetText(string resource)

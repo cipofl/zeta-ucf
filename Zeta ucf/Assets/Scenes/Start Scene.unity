@@ -2494,11 +2494,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 1413899301}
   panel2: {fileID: 11307487}
-  getForUserEndPoint: http://localhost:5000/api/Users/GetForUser/
-  getByIdEndPoint: /api/LimpingTests/GetById/
-  createEndPoint: /api/LimpingTests/Create
-  editEndPoint: /api/LimpingTests/Edit/
-  deleteEndPoint: /api/LimpingTests/Delete/
 --- !u!1 &1020722235
 GameObject:
   m_ObjectHideFlags: 0
@@ -4915,7 +4910,7 @@ GameObject:
   - component: {fileID: 2141967969}
   - component: {fileID: 2141967968}
   m_Layer: 5
-  m_Name: 'InputField limpingTestId '
+  m_Name: InputField limpingTestId
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
