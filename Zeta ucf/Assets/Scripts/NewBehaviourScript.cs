@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Limping.Api.Models;
 
 public class NewBehaviourScript : MonoBehaviour
 {
@@ -63,6 +64,7 @@ public class NewBehaviourScript : MonoBehaviour
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
+            yield break;
         }
         else
         {
@@ -74,6 +76,14 @@ public class NewBehaviourScript : MonoBehaviour
         }
 
         //here deserialize and populate fields
+        LimpingTest limpingTest = JsonUtility.FromJson<LimpingTest>(www.downloadHandler.text);
+        GameObject.Find("InputField userId").GetComponent<InputField>().text = limpingTest.AppUserId.ToString();
+        GameObject.Find("InputField limpingTestId").GetComponent<InputField>().text = limpingTest.Id.ToString();
+        GameObject.Find("InputField date").GetComponent<InputField>().text = limpingTest.Date.ToString();
+        GameObject.Find("InputField testData").GetComponent<InputField>().text = limpingTest.TestData;
+        GameObject.Find("InputField testAnalysisEndValue").GetComponent<InputField>().text = limpingTest.TestAnalysis.EndValue.ToString();
+        GameObject.Find("InputField testDescription").GetComponent<InputField>().text = limpingTest.TestAnalysis.Description;
+        GameObject.Find("Dropdown testAnalysisLimpingSeverity").GetComponent<Dropdown>().value = (int)limpingTest.TestAnalysis.LimpingSeverity;
     }
 
     // Get a limping test by given limping test id
@@ -89,6 +99,7 @@ public class NewBehaviourScript : MonoBehaviour
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
+            yield break;
         }
         else
         {
@@ -100,6 +111,15 @@ public class NewBehaviourScript : MonoBehaviour
         }
 
         //here deserialize and populate fields
+        LimpingTest limpingTest = JsonUtility.FromJson<LimpingTest>(www.downloadHandler.text);
+
+        GameObject.Find("InputField userId").GetComponent<InputField>().text = limpingTest.AppUserId.ToString();
+        GameObject.Find("InputField limpingTestId").GetComponent<InputField>().text = limpingTest.Id.ToString();
+        GameObject.Find("InputField date").GetComponent<InputField>().text = limpingTest.Date.ToString();
+        GameObject.Find("InputField testData").GetComponent<InputField>().text = limpingTest.TestData;
+        GameObject.Find("InputField testAnalysisEndValue").GetComponent<InputField>().text = limpingTest.TestAnalysis.EndValue.ToString();
+        GameObject.Find("InputField testDescription").GetComponent<InputField>().text = limpingTest.TestAnalysis.Description;
+        GameObject.Find("Dropdown testAnalysisLimpingSeverity").GetComponent<Dropdown>().value = (int)limpingTest.TestAnalysis.LimpingSeverity;
     }
 
     // Create a limping test
@@ -107,14 +127,26 @@ public class NewBehaviourScript : MonoBehaviour
     {
         string appUserId = GameObject.Find("InputField userId").GetComponent<InputField>().text;
         string testData = GameObject.Find("InputField testData").GetComponent<InputField>().text;
-        string testAnalysisEndValue = GameObject.Find("InputField testData").GetComponent<InputField>().text;
+        string testAnalysisEndValue = GameObject.Find("InputField testAnalysisEndValue").GetComponent<InputField>().text;
         string testAnalysisDescription = GameObject.Find("InputField testAnalysisDescription").GetComponent<InputField>().text;
-        string testAnalysisLimpingSeverity = GameObject.Find("InputField testAnalysisLimpingSeverity").GetComponent<InputField>().text;
+        int testAnalysisLimpingSeverity = GameObject.Find("Dropdown testAnalysisLimpingSeverity").GetComponent<Dropdown>().value;
 
         print("Create()");
 
         //here serialize
-        string postData = "";
+        LimpingTest limpingTest = new LimpingTest
+        {
+            AppUserId = appUserId,
+            TestData = testData
+        };
+        limpingTest.TestAnalysis = new TestAnalysis
+        {
+            EndValue = double.Parse(testAnalysisEndValue),
+            Description = testAnalysisDescription,
+            LimpingSeverity = (LimpingSeverityEnum)testAnalysisLimpingSeverity
+        };
+
+        string postData = JsonUtility.ToJson(limpingTest);
 
         UnityWebRequest www = UnityWebRequest.Post(createEndPoint, postData);
         yield return www.SendWebRequest();
@@ -138,14 +170,25 @@ public class NewBehaviourScript : MonoBehaviour
     {
         string limpingTestId = GameObject.Find("InputField limpingTestId").GetComponent<InputField>().text;
         string testData = GameObject.Find("InputField testData").GetComponent<InputField>().text;
-        string testAnalysisEndValue = GameObject.Find("InputField testData").GetComponent<InputField>().text;
+        string testAnalysisEndValue = GameObject.Find("InputField testAnalysisEndValue").GetComponent<InputField>().text;
         string testAnalysisDescription = GameObject.Find("InputField testAnalysisDescription").GetComponent<InputField>().text;
-        string testAnalysisLimpingSeverity = GameObject.Find("InputField testAnalysisLimpingSeverity").GetComponent<InputField>().text;
+        int testAnalysisLimpingSeverity = GameObject.Find("Dropdown testAnalysisLimpingSeverity").GetComponent<Dropdown>().value;
 
         print("Edit()" + " " + limpingTestId);
 
         //here serialize
-        string bodyData = "";
+        LimpingTest limpingTest = new LimpingTest
+        {
+            TestData = testData
+        };
+        limpingTest.TestAnalysis = new TestAnalysis
+        {
+            EndValue = double.Parse(testAnalysisEndValue),
+            Description = testAnalysisDescription,
+            LimpingSeverity = (LimpingSeverityEnum)testAnalysisLimpingSeverity
+        };
+
+        string bodyData = JsonUtility.ToJson(limpingTest);
 
         UnityWebRequest www = UnityWebRequest.Put(editEndPoint, bodyData);
         yield return www.SendWebRequest();
