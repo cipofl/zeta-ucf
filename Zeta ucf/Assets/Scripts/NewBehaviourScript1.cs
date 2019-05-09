@@ -176,6 +176,7 @@ public class NewBehaviourScript1 : MonoBehaviour
         }
     }
 
+    //Deletes the limping test
     public IEnumerator DeleteLimpingTest()
     {
         UnityWebRequest www = UnityWebRequest.Delete(limpingTestsDeleteHref);
@@ -190,6 +191,7 @@ public class NewBehaviourScript1 : MonoBehaviour
         }
     }
 
+    //Edits the limping test
     public IEnumerator EditLimpingTest()
     {
         string testData = GameObject.Find("testData").GetComponent<InputField>().text;
