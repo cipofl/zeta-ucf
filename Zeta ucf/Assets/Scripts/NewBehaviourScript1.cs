@@ -12,6 +12,9 @@ public class NewBehaviourScript1 : MonoBehaviour
 {
     private readonly string host = "http://192.168.99.100:8090";
     private string usersCreateHref;
+    private string limpingTestsSingleHref;
+    private string limpingTestsCreate;
+    private User user;
 
     private void Start()
     {
@@ -50,7 +53,7 @@ public class NewBehaviourScript1 : MonoBehaviour
         string userName = GameObject.Find("user name input field").GetComponent<InputField>().text;
         string email = GameObject.Find("email input field").GetComponent<InputField>().text;
 
-        User user = new User
+        user = new User
         {
             userName = userName,
             email = email
@@ -67,12 +70,47 @@ public class NewBehaviourScript1 : MonoBehaviour
         yield return request.Send();
 
         Debug.Log("Status Code: " + request.responseCode);
-        print(JsonConvert.DeserializeObject(request.downloadHandler.text));
+
+        dynamic dynamic = JsonConvert.DeserializeObject(request.downloadHandler.text);
+        print(dynamic);
 
         if (request.responseCode == 200)
         {
             GameObject.Find("Panel api").SetActive(false);
+            GameObject.Find("Panel").transform.Find("Panel api (1)").gameObject.SetActive(true);
+            limpingTestsSingleHref = host + dynamic["_links"]["limpingTests-single"]["href"];
+            print(limpingTestsSingleHref);
+
+            GameObject.Find("Panel api (1)/id").GetComponent<Text>().text = "Id: " + dynamic["id"].ToString();
+            GameObject.Find("Panel api (1)/username").GetComponent<Text>().text = "Username: " + dynamic["userName"].ToString();
+            GameObject.Find("Panel api (1)/email").GetComponent<Text>().text = "Email: " + dynamic["email"].ToString();
         }
+    }
+
+    //Gets all the limping tests for a user
+    public IEnumerator GetLimpingTestsForUser()
+    {
+        UnityWebRequest www = UnityWebRequest.Get(limpingTestsSingleHref);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+            yield break;
+        }
+        else
+        {
+            // Show results as text
+            //Debug.Log(www.downloadHandler.text);
+
+            // Or retrieve results as binary data
+            byte[] results = www.downloadHandler.data;
+        }
+
+        dynamic dynamic = JsonConvert.DeserializeObject(www.downloadHandler.text);
+        print(dynamic);
+        limpingTestsCreate = host + dynamic["_links"]["limpingTests-create"]["href"];
+        print(limpingTestsCreate);
     }
 }
 
